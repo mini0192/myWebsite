@@ -48,12 +48,12 @@ jobs:
         
     - name: Docker image build
       run: |
-        cd ./server/9in
-        docker build -t ${{secrets.DOCKERHUB_ID}}/9uin-server .
+        cd ./server/website
+        docker build -t ${{secrets.DOCKERHUB_ID}}/website .
       
 
     - name: Docker Hub push
-      run: docker push ${{secrets.DOCKERHUB_ID}}/9uin-server
+      run: docker push ${{secrets.DOCKERHUB_ID}}/website
 
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
