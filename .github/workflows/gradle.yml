@@ -54,6 +54,40 @@ jobs:
     - name: Docker Hub push
       run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/website
 
+
+  deploy: 
+    runs-on: ubuntu-latest
+    permissions: write-all
+    needs: build
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Copy docker-compose into instance   #내 인스턴스로 docker-compose.yml파일 복사.
+      uses: appleboy/scp-action@master          #이미 존재하는 경우 덮어씀
+      with: 
+        host: ${{secrets.GCP_HOST}}
+        username: ${{secrets.GCP_USERNAME}}
+        key: ${{secrets.GCP_PRIVATEKEY}}
+        source: "./server/9in/docker-compose.yml"
+        target: "/home/${{secrets.GCP_USERNAME}}"
+        strip_components: 3
+        overwrite: true
+        debug: true
+
+    - name: Deploy to Instance
+      uses: appleboy/ssh-action@v1.0.0     #가장 최신 버젼 appleboy 사용
+      with:
+        host: ${{secrets.GCP_HOST}}
+        username: ${{secrets.GCP_USERNAME}}
+        key: ${{secrets.GCP_PRIVATEKEY}}  
+        script: |
+          sudo docker login -u ${{ secrets.DOCKERHUB_ID }} -p ${{ secrets.DOCKERHUB_PASSWORD }}
+          sudo docker pull ${{secrets.DOCKERHUB_ID}}/9uin-server
+          sudo docker rm -f $(docker ps -qa) 2>/dev/null || true
+          cd side_project/server/9in/
+          sudo docker-compose up -d
+          sudo docker image prune -f
     # NOTE: The Gradle Wrapper is the default and recommended way to run Gradle (https://docs.gradle.org/current/userguide/gradle_wrapper.html).
     # If your project does not have the Gradle Wrapper configured, you can use the following configuration to run Gradle with a specified version.
     #
