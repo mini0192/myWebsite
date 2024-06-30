@@ -48,7 +48,6 @@ jobs:
         
     - name: Docker image build
       run: |
-        cd ./server
         docker build -t ${{ secrets.DOCKERHUB_ID }}/website .
       
 
