@@ -49,7 +49,7 @@ jobs:
     - name: Docker image build
       run: |
         cd ./server/website
-        docker build -t ${{ secrets.DOCKERHUB_ID}}/website .
+        docker build -t ${{ secrets.DOCKERHUB_ID }}/website .
       
 
     - name: Docker Hub push
