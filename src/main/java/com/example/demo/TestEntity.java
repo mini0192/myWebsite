@@ -7,4 +7,5 @@ import jakarta.persistence.Id;
 public class TestEntity {
     @Id
     private Long test;
+    private String test1;
 }
