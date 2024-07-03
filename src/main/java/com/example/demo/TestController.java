@@ -13,7 +13,7 @@ public class TestController {
     @GetMapping
     @Operation(description = "해치웠나?")
     public String test() {
-        return "제발 좀 깔끔하게 되라..123 날왜 괴롭혀.. 이건 왜돼??";
+        return "제발 좀 깔끔하게 되라..123 날왜 괴롭혀.. 해치웠나?";
     }
 
     @PostMapping("/test")
