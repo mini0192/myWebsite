@@ -1,4 +1,4 @@
-package com.example.demo.security;
+package com.example.demo.member.domain;
 
 import com.example.demo.member.domain.Member;
 import lombok.RequiredArgsConstructor;

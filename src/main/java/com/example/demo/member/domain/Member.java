@@ -7,6 +7,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -33,10 +34,18 @@ public class Member {
 
     private String locked;
 
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     private List<String> role;
 
     public void passwordEncoding(String password) {
         this.password = password;
+    }
+
+    public static boolean equals(Member m1, Member m2) {
+        if(!m1.getUsername().equals(m2.getUsername())) return false;
+        if(!m1.getName().equals(m2.getName())) return false;
+        if(!Arrays.equals(m1.getRole().toArray(), m2.getRole().toArray())) return false;
+
+        return true;
     }
 }
