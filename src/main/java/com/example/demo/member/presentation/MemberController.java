@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,7 @@ public class MemberController {
     @PostMapping
     @Operation(summary = "맴버 생성")
     public ResponseEntity<String> save(@Parameter(content = @Content(mediaType = MediaType.MULTIPART_FORM_DATA_VALUE))
-                                        MemberSaveDto memberSaveDto,
+                                        @Valid @RequestBody MemberSaveDto memberSaveDto,
                                         HttpServletRequest request) {
         String ip = request.getRemoteAddr();
         log.info("{}: 맴버 생성", ip);
