@@ -107,7 +107,7 @@ public class MemberController {
                                         @Valid @RequestBody MemberSaveDto memberSaveDto,
                                         HttpServletRequest request) {
         String ip = request.getRemoteAddr();
-        log.info("{}: 맴버 생성1", ip);
+        log.info("{}: 맴버 생성", ip);
         memberService.save(memberSaveDto);
         return new ResponseEntity<>("생성 완료", HttpStatus.CREATED);
     }
