@@ -45,7 +45,7 @@ public class SecurityFilterConfig {
     private CorsConfigurationSource configurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        configuration.addAllowedOrigin("http://localhost:3000");
+        configuration.addAllowedOrigin("123.99.104.76");
         configuration.addAllowedMethod("*");
         configuration.addAllowedHeader("*");
 
