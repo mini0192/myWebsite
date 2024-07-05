@@ -23,7 +23,6 @@ public class SecurityFilterConfig {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
@@ -32,5 +31,6 @@ public class SecurityFilterConfig {
                 .addFilterBefore(new JwtFilter(refreshTokenService, jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAt(new LoginFilter(authenticationManager, refreshTokenService, jwtProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
+
     }
 }
