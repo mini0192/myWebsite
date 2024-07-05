@@ -14,9 +14,7 @@ import java.util.List;
 @Schema(name = "맴버 정보 출력폼")
 public class MemberShowDto {
     private Long id;
-    @NotBlank
     private String username;
-    @NotBlank
     private String name;
     private String locked;
     private List<String> role;

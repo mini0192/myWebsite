@@ -19,19 +19,21 @@ public class RefreshToken {
     @Id
     private String token;
 
-    @Column
+    @Column(nullable = false)
     @Size(min = 1, max = 30)
     private String username;
 
-    @Column
+    @Column(nullable = false)
     @Size(min = 1, max = 30)
     private String name;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> role;
 
+    @Column(nullable = false)
     private int count;
 
+    @Column(nullable = false)
     private long expirationTime;
 
     public void countSetting(int count) {

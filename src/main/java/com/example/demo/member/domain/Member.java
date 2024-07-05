@@ -20,18 +20,19 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
-    @Size(min = 1, max = 30)
+    @Column(nullable = false)
+    @Size(min = 5, max = 30)
     private String username;
 
-    @Column
-    @Size(min = 1, max = 100)
+    @Column(nullable = false)
+    @Size(min = 10, max = 50)
     private String password;
 
-    @Column
-    @Size(min = 1, max = 30)
+    @Column(nullable = false)
+    @Size(min = 2, max = 30)
     private String name;
 
+    @Column(nullable = false)
     private String locked;
 
     @ElementCollection(fetch = FetchType.EAGER)
