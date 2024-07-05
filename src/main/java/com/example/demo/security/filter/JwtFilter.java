@@ -30,20 +30,21 @@ import java.util.Optional;
 public class JwtFilter extends OncePerRequestFilter {
 
     private final RefreshTokenService refreshTokenService;
+    private final JwtProvider jwtProvider;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String header = request.getHeader(JwtProvider.HEADER_STRING);
+        String header = request.getHeader(jwtProvider.HEADER_STRING);
         if(header == null) {
             filterChain.doFilter(request, response);
             return;
         }
 
         try {
-            String jwtToken = header.replace(JwtProvider.TOKEN_PREFIX, "");
-            DecodedJWT decodedJWT = JwtProvider.decodeJwtToken(jwtToken);
+            String jwtToken = header.replace(jwtProvider.TOKEN_PREFIX, "");
+            DecodedJWT decodedJWT = jwtProvider.decodeJwtToken(jwtToken);
 
             MemberDetails memberDetails = new MemberDetails(getMember(decodedJWT));
 
@@ -62,8 +63,8 @@ public class JwtFilter extends OncePerRequestFilter {
 
             MemberDetails RefreshMemberDetails = new MemberDetails(member);
 
-            String refreshJwtToken = JwtProvider.TOKEN_PREFIX + JwtProvider.createJwtToken(RefreshMemberDetails);
-            response.setHeader(JwtProvider.HEADER_STRING, refreshJwtToken);
+            String refreshJwtToken = jwtProvider.TOKEN_PREFIX + jwtProvider.createJwtToken(RefreshMemberDetails);
+            response.setHeader(jwtProvider.HEADER_STRING, refreshJwtToken);
             log.info("만료된 JWT Token 재발급 완료");
 
             Authentication authentication =
@@ -82,7 +83,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private Member tokenReissue(HttpServletRequest request) {
-        String header = request.getHeader(JwtProvider.REFRESH_HEADER_STRING);
+        String header = request.getHeader(jwtProvider.REFRESH_HEADER_STRING);
 
         if(header == null) {
             log.error("Refresh Token이 존재하지 않아 토큰 재발급에 실패했습니다.");
@@ -108,8 +109,8 @@ public class JwtFilter extends OncePerRequestFilter {
                 .build();
 
         try {
-            String refreshTokenHeader = header.replace(JwtProvider.TOKEN_PREFIX, "");
-            DecodedJWT decodedRefreshToken = JwtProvider.decodeJwtToken(refreshTokenHeader);
+            String refreshTokenHeader = header.replace(jwtProvider.TOKEN_PREFIX, "");
+            DecodedJWT decodedRefreshToken = jwtProvider.decodeJwtToken(refreshTokenHeader);
             Member tokenMember = getMember(decodedRefreshToken);
 
 

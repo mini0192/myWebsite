@@ -19,6 +19,7 @@ public class SecurityFilterConfig {
 
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
+    private final JwtProvider jwtProvider;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -28,8 +29,8 @@ public class SecurityFilterConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(auth -> auth.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(new JwtFilter(refreshTokenService), UsernamePasswordAuthenticationFilter.class)
-                .addFilterAt(new LoginFilter(authenticationManager, refreshTokenService), UsernamePasswordAuthenticationFilter.class);
+                .addFilterBefore(new JwtFilter(refreshTokenService, jwtProvider), UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(new LoginFilter(authenticationManager, refreshTokenService, jwtProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 }

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -26,6 +27,7 @@ public class MemberController {
     @GetMapping
     @Operation(summary = "전체 맴버 목록 확인")
     public ResponseEntity<List<MemberShowDto>> findAll() {
+        System.out.println(UUID.randomUUID().toString());
         List<MemberShowDto> retnMemberShowDtoList = memberService.findAll();
         return new ResponseEntity<>(retnMemberShowDtoList, HttpStatus.OK);
     }

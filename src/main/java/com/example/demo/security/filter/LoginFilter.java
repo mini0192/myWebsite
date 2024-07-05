@@ -27,6 +27,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final RefreshTokenService refreshTokenService;
+    private final JwtProvider jwtProvider;
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
@@ -58,8 +59,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         MemberDetails memberDetails = (MemberDetails) authResult.getPrincipal();
         log.info("username: {} -> 로그인 성공", memberDetails.getUsername());
 
-        String jwtToken = JwtProvider.TOKEN_PREFIX + JwtProvider.createJwtToken(memberDetails);
-        String refreshToken = JwtProvider.TOKEN_PREFIX + JwtProvider.createRefreshToken(memberDetails);
+        String jwtToken = jwtProvider.TOKEN_PREFIX + jwtProvider.createJwtToken(memberDetails);
+        String refreshToken = jwtProvider.TOKEN_PREFIX + jwtProvider.createRefreshToken(memberDetails);
 
         List<String> memberRole = memberDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).toList();
@@ -69,11 +70,11 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
                         .username(memberDetails.getUsername())
                         .name(memberDetails.getName())
                         .role(memberRole)
-                        .expirationTime(System.currentTimeMillis() + JwtProvider.REFRESH_TOKEN_EXPIRATION_TIME)
+                        .expirationTime(System.currentTimeMillis() + jwtProvider.REFRESH_TOKEN_EXPIRATION_TIME)
                         .build());
 
-        response.addHeader(JwtProvider.HEADER_STRING, jwtToken);
-        response.addHeader(JwtProvider.REFRESH_HEADER_STRING, refreshToken);
+        response.addHeader(jwtProvider.HEADER_STRING, jwtToken);
+        response.addHeader(jwtProvider.REFRESH_HEADER_STRING, refreshToken);
     }
 
     @Override

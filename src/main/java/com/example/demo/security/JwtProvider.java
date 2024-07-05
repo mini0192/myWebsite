@@ -4,20 +4,25 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.demo.member.domain.MemberDetails;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.Collection;
 import java.util.Date;
 
+@Configuration
 public class JwtProvider {
-    public static String SECRET = "asdasdasdasdasdasd";
-    public static int JWT_TOKEN_EXPIRATION_TIME =  60000 * 10;
-    public static int REFRESH_TOKEN_EXPIRATION_TIME =  60000 * 10 * 60;
-    public static String TOKEN_PREFIX = "Bearer ";
-    public static String HEADER_STRING = "Authorization";
-    public static String REFRESH_HEADER_STRING = "Refresh";
+    @Value("${JwtKey}")
+    public String SECRET;
+    public int JWT_TOKEN_EXPIRATION_TIME =  60000 * 10;
+    public int REFRESH_TOKEN_EXPIRATION_TIME =  60000 * 10 * 60;
+    public String TOKEN_PREFIX = "Bearer ";
+    public String HEADER_STRING = "Authorization";
+    public String REFRESH_HEADER_STRING = "Refresh";
 
-    public static String createJwtToken(MemberDetails memberDetails) {
+    public String createJwtToken(MemberDetails memberDetails) {
+        System.out.println(SECRET);
         Collection<? extends GrantedAuthority> roleList = memberDetails.getAuthorities();
         String[] role = roleList.stream().map(GrantedAuthority::getAuthority).toArray(String[]::new);
 
@@ -29,7 +34,7 @@ public class JwtProvider {
                 .sign(Algorithm.HMAC512(SECRET));
     }
 
-    public static String createRefreshToken(MemberDetails memberDetails) {
+    public String createRefreshToken(MemberDetails memberDetails) {
         Collection<? extends GrantedAuthority> roleList = memberDetails.getAuthorities();
         String[] role = roleList.stream().map(GrantedAuthority::getAuthority).toArray(String[]::new);
 
@@ -41,7 +46,7 @@ public class JwtProvider {
                 .sign(Algorithm.HMAC512(SECRET));
     }
 
-    public static DecodedJWT decodeJwtToken(String jwtToken) {
+    public DecodedJWT decodeJwtToken(String jwtToken) {
         return JWT.require(Algorithm.HMAC512(SECRET))
                 .build()
                 .verify(jwtToken);
