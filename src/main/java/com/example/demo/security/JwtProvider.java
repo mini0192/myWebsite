@@ -22,7 +22,6 @@ public class JwtProvider {
     public String REFRESH_HEADER_STRING = "Refresh";
 
     public String createJwtToken(MemberDetails memberDetails) {
-        System.out.println(SECRET);
         Collection<? extends GrantedAuthority> roleList = memberDetails.getAuthorities();
         String[] role = roleList.stream().map(GrantedAuthority::getAuthority).toArray(String[]::new);
 
