@@ -46,10 +46,9 @@ public class SecurityFilterConfig {
         CorsConfiguration configuration = new CorsConfiguration();
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 
-        configuration.addAllowedOrigin("/**");
-        configuration.addAllowedOriginPattern("*");
-        configuration.addAllowedMethod("*");
-        configuration.addAllowedHeader("*");
+        configuration.addAllowedOrigin(CorsConfiguration.ALL);
+        configuration.addAllowedMethod(CorsConfiguration.ALL);
+        configuration.addAllowedHeader(CorsConfiguration.ALL);
 
         configuration.setExposedHeaders(List.of(jwtProvider.HEADER_STRING, jwtProvider.REFRESH_HEADER_STRING));
         configuration.setAllowCredentials(true);
