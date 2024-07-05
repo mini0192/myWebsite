@@ -1,11 +1,9 @@
 package com.example.demo.security.refreshToken.service;
 
-import com.example.demo.config.NotFountDataException;
 import com.example.demo.security.refreshToken.domain.RefreshToken;
 import com.example.demo.security.refreshToken.repository.RefreshTokenRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Sort;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;

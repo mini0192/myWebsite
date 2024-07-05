@@ -1,5 +1,6 @@
 package com.example.demo.member.service;
 
+import com.example.demo.config.exception.NotFountDataException;
 import com.example.demo.config.ValidationConfig;
 import com.example.demo.member.domain.Member;
 import com.example.demo.member.presentation.MemberSaveDto;
@@ -25,7 +26,8 @@ public class MemberService {
     }
 
     public MemberShowDto findId(Long takenId) {
-        Member savedMember = memberRepository.findById(takenId).orElseThrow(() -> new RuntimeException("test"));
+        Member savedMember = memberRepository.findById(takenId)
+                .orElseThrow(() -> new NotFountDataException("유저를 찾을 수 없습니다."));
         return this.toDto(savedMember);
     }
 

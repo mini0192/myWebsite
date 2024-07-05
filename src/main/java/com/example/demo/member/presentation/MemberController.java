@@ -14,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @Slf4j
 @RestController
@@ -36,9 +35,9 @@ public class MemberController {
 
     @GetMapping("/{id}")
     @Operation(summary = "특정 맴버 확인")
-    public ResponseEntity<MemberShowDto> findId(@RequestParam("id") Long id, HttpServletRequest request) {
+    public ResponseEntity<MemberShowDto> findId(@PathVariable("id") Long id, HttpServletRequest request) {
         String ip = request.getRemoteAddr();
-        log.info("{}: {} 맴버 확인", ip, id);
+        log.info("{}: {}번 맴버 확인", ip, id);
         MemberShowDto retnMemberShowDto = memberService.findId(id);
         return new ResponseEntity<>(retnMemberShowDto, HttpStatus.OK);
     }

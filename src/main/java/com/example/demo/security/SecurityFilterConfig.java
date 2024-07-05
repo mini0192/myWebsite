@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -27,7 +28,9 @@ public class SecurityFilterConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
+
                 .sessionManagement(auth -> auth.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+
                 .addFilterBefore(new JwtFilter(refreshTokenService, jwtProvider), UsernamePasswordAuthenticationFilter.class)
                 .addFilterAt(new LoginFilter(authenticationManager, refreshTokenService, jwtProvider), UsernamePasswordAuthenticationFilter.class);
         return http.build();

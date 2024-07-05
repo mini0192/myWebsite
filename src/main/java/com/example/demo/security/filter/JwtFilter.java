@@ -4,7 +4,6 @@ import com.auth0.jwt.exceptions.JWTDecodeException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.example.demo.config.NotFountDataException;
 import com.example.demo.member.domain.Member;
 import com.example.demo.member.domain.MemberDetails;
 import com.example.demo.security.JwtProvider;
